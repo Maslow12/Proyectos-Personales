@@ -4,10 +4,10 @@ import time
 import numpy as np
 
 '''
-Juego de Snake hecho con Tkinter y Numpy solamente. Proyecto intermedio
+Snake game. Made only with Tkinter and numpy for some things....
 '''
 
-#Variables globales
+#Global variables
 def init_vars():
     global snake,height,width,points,x
     snake = []
@@ -15,6 +15,7 @@ def init_vars():
     height = 640
     width = 640
 
+#Init functions
 init_vars()
 frame = tk.Tk()
 frame.geometry('700x700')
@@ -22,11 +23,12 @@ frame.title('Snake. By: Sebastian Yusti')
 canvas = tk.Canvas(height=height, width=width, bg='Black')
 canvas.pack()
 
+#Snake head
 def head(count=20):
     a = canvas.create_rectangle(80+count,0,100+count,20, fill='Red')
     snake.append(a)
     canvas.pack()
-    
+#Snake body
 def body(count,init,fin=0):
     for i in range(init,fin):
         count += 20
@@ -35,13 +37,16 @@ def body(count,init,fin=0):
         frame.update()
         canvas.pack()
         
+#Field
 def fieldprint():
     canvas.create_line(2,2,0,height, fill='Gray')
 
-#Creacion del cuerpo
+#Initialization of the body
 
 head()
 body(20,0,3)
+
+#Creation of fruit
 
 def FRUIT():
     FRUT = canvas.create_rectangle(0,0,20,20, fill='Yellow')
@@ -49,19 +54,22 @@ def FRUIT():
     return FRUT
 
 FRUT = FRUIT()
-    
+
+# Change of fruit position
+
 def FRUIT_CHANGE():
     fcoorX = np.random.randint(10,500)
     fcoorY = np.random.randint(10,500)
     x1f,y1f,x2f,y2f = fcoorX+20, fcoorY+20, fcoorX,fcoorY
     canvas.coords(FRUT,x1f,y1f,x2f,y2f)
     canvas.pack()
-    
+
+# Fruit position coordinates
 def RANDCOORD()->tuple():
     a = np.random.randint(10,500)    
     b = np.random.randint(10,500)
     return a,b
-        
+# Snake movement        
 def CHANGE_BODY():
     OLD_COORDS = []
     NEW_COORDS = []
@@ -74,7 +82,8 @@ def CHANGE_BODY():
         time.sleep(0.01)
     del OLD_COORDS
     return NEW_COORDS
-        
+
+# Head position
 def POSITION_HEAD(snake,xparm1=0,yparm1=0,xparm2=0,yparm2=0):   
     x1,y1,x2,y2 = canvas.coords(snake[0])
     x1 += xparm1 
@@ -85,7 +94,8 @@ def POSITION_HEAD(snake,xparm1=0,yparm1=0,xparm2=0,yparm2=0):
     NEW_POS = canvas.coords(snake[0])
     return NEW_POS
     frame.update()
-    
+
+# Snake body growth
 CHANBODY = 0
 def BODY_GROWN():
     body(20, 3+1,4+1)
@@ -94,10 +104,11 @@ def BODY_GROWN():
 def CHANGE_ALL(snake, change, mills, position_0):
     for i in range(1,len(snake)):
         canvas.coords(snake[i], change[i-1])
-        
+# Game Over
 def GAME_OVER():
     TEXT_POINTS = canvas.create_text(325, 400, text='Game Over', fill="White", font=('Helvetica 15 bold'))
 
+# Game-Loop
 def GENERAL_MOVE():
     X_AXIS = 1
     Y_AXIS = 0
@@ -173,8 +184,6 @@ def GENERAL_MOVE():
             frame.update()
         time.sleep(0.00001)            
             
-
-
 GENERAL_MOVE()
 canvas.pack()
 frame.mainloop()
