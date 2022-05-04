@@ -1,3 +1,3 @@
 #__Snake game.__
 
-### __Made with Tkinter, numpy and a lot of creativity... 100% functional__
+### __Made with Tkinter and numpy__
